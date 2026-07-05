@@ -1,6 +1,20 @@
 import streamlit as st
 import pandas as pd
 
+from pathlib import Path
+import os
+
+st.write("Current directory:", os.getcwd())
+
+BASE_DIR = Path(__file__).resolve().parents[2]
+
+st.write("BASE_DIR:", BASE_DIR)
+
+st.write("Reports exists:", (BASE_DIR / "reports").exists())
+
+st.write("Forecast exists:",
+         (BASE_DIR / "reports" / "forecast.png").exists())
+
 st.set_page_config(
     page_title="NeuralRetail",
     layout="wide"
