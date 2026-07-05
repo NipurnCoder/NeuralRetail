@@ -234,7 +234,7 @@ Monitoring Dashboard
 
 **NIPURN**
 
-AI Engineer | Data Science Enthusiast
+B-Tech CSE | AI Engineer | Data Science Enthusiast
 
 GitHub:
 https://github.com/NipurnCoder
