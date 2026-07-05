@@ -1,30 +1,58 @@
 import streamlit as st
 import pandas as pd
-
 from pathlib import Path
-import os
-
-st.write("Current directory:", os.getcwd())
-
-BASE_DIR = Path(__file__).resolve().parents[2]
-
-st.write("BASE_DIR:", BASE_DIR)
-
-st.write("Reports exists:", (BASE_DIR / "reports").exists())
-
-st.write("Forecast exists:",
-         (BASE_DIR / "reports" / "forecast.png").exists())
+from PIL import Image
 
 st.set_page_config(
     page_title="NeuralRetail",
     layout="wide"
 )
 
-#################################################
-# STYLE
+BASE_DIR = Path(__file__).resolve().parents[2]
+REPORTS = BASE_DIR / "reports"
+
+
+def show_image(filename):
+
+    path = REPORTS / filename
+
+    if path.exists():
+
+        try:
+
+            image = Image.open(path)
+
+            st.image(
+
+                image,
+
+                use_container_width=True
+
+            )
+
+        except Exception as e:
+
+            st.error(
+
+                f"Cannot load {filename}"
+
+            )
+
+            st.write(e)
+
+    else:
+
+        st.warning(
+
+            f"{filename} not found"
+
+        )
+
+
 #################################################
 
 st.markdown("""
+
 <style>
 
 .stApp{
@@ -38,23 +66,6 @@ background-color:#111827;
 
 h1,h2,h3{
 color:white;
-}
-
-.metric-box{
-background:#111827;
-padding:20px;
-border-radius:12px;
-text-align:center;
-}
-
-.metric-value{
-font-size:30px;
-font-weight:bold;
-}
-
-.metric-title{
-font-size:14px;
-color:gray;
 }
 
 .block-container{
@@ -72,7 +83,9 @@ st.title("🧠 NeuralRetail Analytics")
 st.sidebar.title("🛒 NeuralRetail")
 
 st.sidebar.markdown(
+
 "AI Powered Retail Analytics Platform"
+
 )
 
 module = st.sidebar.radio(
@@ -80,19 +93,23 @@ module = st.sidebar.radio(
 "Navigate",
 
 [
+
 "Overview",
+
 "Forecasting",
+
 "Segmentation",
+
 "Churn",
+
 "Inventory",
+
 "Monitoring"
 
 ]
 
 )
 
-#################################################
-# OVERVIEW
 #################################################
 
 if module=="Overview":
@@ -102,128 +119,155 @@ if module=="Overview":
     c1,c2,c3,c4 = st.columns(4)
 
     c1.metric(
+
         "Revenue",
+
         "$8.9M",
+
         "+12%"
+
     )
 
     c2.metric(
+
         "Customers",
+
         "4372",
+
         "+8%"
+
     )
 
     c3.metric(
+
         "Forecast Horizon",
+
         "30 Days"
+
     )
 
     c4.metric(
+
         "Segments",
+
         "6"
+
     )
 
-    st.divider()
-
-    st.subheader("Platform Features")
-
-    st.markdown("""
-
-• 📈 Demand Forecasting
-
-• 👥 Customer Segmentation
-
-• ⚠️ Churn Prediction
-
-• 📦 Inventory Optimization
-
-• 📊 Monitoring Dashboard
-
-• 🤖 ML Powered Analytics
-
-""")
-
-#################################################
-# FORECASTING
 #################################################
 
 elif module=="Forecasting":
 
-    st.header("📈 Demand Forecasting")
+    st.header(
+
+        "📈 Demand Forecasting"
+
+    )
 
     a,b,c = st.columns(3)
 
-    a.metric("MAPE","10.4%")
+    a.metric(
 
-    b.metric("Accuracy","89%")
+        "MAPE",
 
-    c.metric("Horizon","30 Days")
+        "10.4%"
+
+    )
+
+    b.metric(
+
+        "Accuracy",
+
+        "89%"
+
+    )
+
+    c.metric(
+
+        "Horizon",
+
+        "30 Days"
+
+    )
 
     st.divider()
 
-    st.image(
-        "reports/forecast.png",
-        use_container_width=True
+    show_image(
+
+        "forecast.png"
+
     )
 
-    df = pd.read_csv(
-        "reports/future_30_days.csv"
-    )
+    csv_file = REPORTS / "future_30_days.csv"
 
-    st.subheader(
-        "Forecast Table"
-    )
+    if csv_file.exists():
 
-    st.dataframe(
-        df,
-        use_container_width=True
-    )
+        df = pd.read_csv(
 
-#################################################
-# SEGMENTATION
+            csv_file
+
+        )
+
+        st.dataframe(
+
+            df,
+
+            use_container_width=True
+
+        )
+
 #################################################
 
 elif module=="Segmentation":
 
     st.header(
+
         "👥 Customer Segmentation"
+
     )
 
     c1,c2,c3 = st.columns(3)
 
     c1.metric(
+
         "Customers",
+
         "300"
+
     )
 
     c2.metric(
+
         "Segments",
+
         "6"
+
     )
 
     c3.metric(
+
         "Silhouette",
+
         "0.42"
+
     )
 
     st.divider()
 
-    st.image(
+    show_image(
 
-        "reports/segments.png",
-
-        use_container_width=True
+        "segments.png"
 
     )
 
-#################################################
-# CHURN
 #################################################
 
 elif module=="Churn":
 
     st.header(
+
         "⚠️ Churn Dashboard"
+
     )
 
     a,b,c = st.columns(3)
@@ -254,22 +298,12 @@ elif module=="Churn":
 
     st.divider()
 
-    st.image(
+    show_image(
 
-        "reports/shap_summary.png",
-
-        use_container_width=True
+        "shap_summary.png"
 
     )
 
-    st.success(
-
-        "Average churn risk among top customers: 92%"
-
-    )
-
-#################################################
-# INVENTORY
 #################################################
 
 elif module=="Inventory":
@@ -316,16 +350,12 @@ elif module=="Inventory":
 
     st.divider()
 
-    st.image(
+    show_image(
 
-        "reports/abc_chart.png",
-
-        use_container_width=True
+        "abc_chart.png"
 
     )
 
-#################################################
-# MONITORING
 #################################################
 
 elif module=="Monitoring":
@@ -392,7 +422,11 @@ elif module=="Monitoring":
 
     }
 
-    df = pd.DataFrame(data)
+    df = pd.DataFrame(
+
+        data
+
+    )
 
     st.dataframe(
 
