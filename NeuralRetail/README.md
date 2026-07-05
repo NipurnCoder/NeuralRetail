@@ -232,15 +232,12 @@ Monitoring Dashboard
 
 # Author
 
-**Anshu Dawson**
+**NIPURN**
 
 AI Engineer | Data Science Enthusiast
 
 GitHub:
-https://github.com/yourusername
-
-LinkedIn:
-https://linkedin.com/in/yourprofile
+https://github.com/NipurnCoder
 
 ---
 
