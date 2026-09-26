@@ -95,7 +95,7 @@ NeuralRetail/
 Clone repository
 
 ```bash
-git clone https://github.com/yourusername/NeuralRetail.git
+git clone https://github.com/NipurnCoder/NeuralRetail.git
 
 cd NeuralRetail
 ```
